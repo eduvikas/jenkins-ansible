@@ -1,0 +1,17 @@
+pipeline {
+    agent any 
+
+    stages {
+        stage('SCM-Checkout') {
+            steps {
+                git branch: 'main', credentialsId: 'git-credentials', url: 'https://github.com/eduvikas/jenkins-ansible.git'
+            }
+        }
+        stage('Ansible-script') {
+            steps {
+                ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'ansible-tool', inventory: 'dev.inv', playbook: 'pin.yaml'
+            }
+        }		
+
+       }
+    }
